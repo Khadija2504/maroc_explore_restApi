@@ -6,10 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <style>
         span{
-            color: red;
+            .error: red;
         }
     </style>
 </head>
@@ -26,11 +28,10 @@
            
            <div class="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
               <nav>
-                
                  <ul class="md:flex items-center justify-between text-base text-blue-600 pt-4 md:pt-0">
-                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Home</a></li>
-                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Products</a></li>
-                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">About</a></li>
+                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="/home">Home</a></li>
+                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="itineraire/create">create new itinerary</a></li>
+                    <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="/toVisitList">To visit list</a></li>
                  </ul>
               </nav>
            </div>
@@ -142,6 +143,7 @@
                 });
             });
         });
+        
         $(document).ready(function(){
             $("#searchForm").submit(function(event){
                 event.preventDefault();
@@ -183,5 +185,21 @@
                 });
             }
         });
-        
+        $(document).on('submit', '.toVisitList_Form', function (event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                url: "http://127.0.0.1:8080/api/itineraire/addList",
+                type: "POST",
+                headers: {'Authorization': localStorage.getItem('user_token')},
+                data: formData,
+                success: function (data) {
+                    $(".result").text(data.msg);
+                    alert(data.msg);
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
     </script>

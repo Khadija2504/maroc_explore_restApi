@@ -31,3 +31,9 @@ Route::get('/itineraire/create', function(){
 Route::get('/toVisitList', function(){
     return view('toVisitList');
 });
+Route::get('destination/create/{id}', function($id){
+    return view('destination.create', compact('id'));
+});
+Route::get('itineraires/update/{id}', function($id){
+    return view('itineraire.edit', compact('id'));
+});
