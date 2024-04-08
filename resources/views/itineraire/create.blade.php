@@ -36,7 +36,7 @@
         <input type="file" name="image" id="image" class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
         <span class="error image_err"></span>
         <label for="category" class="block mt-2 text-xs font-semibold text-gray-600 uppercase">Category</label>
-        <select name="category_id" id="categoriesContainer" class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required>
+        <select name="category_id" id="categoriesContainer" class="categoriesContainer block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required>
         </select>
         <span class="error category_id_err"></span>
         <button type="submit" value="create" class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
@@ -52,6 +52,7 @@
             event.preventDefault();
             var cities = $("#point_depart");
             var formData = new FormData(this);
+            console.log(formData);
             $.ajax({
                 url: "http://127.0.0.1:8080/api/itineraire",
                 type: "POST",
@@ -91,7 +92,7 @@
                 // console.log(data.cities[0].id);
                 var citiesDepartContainer = $('#citiesDepartContainer');
                 var citiesArriveeContainer = $('#citiesArriveeContainer');
-                var categoriesContainer = $('#categoriesContainer');
+                var categoriesContainer = $('.categoriesContainer');
                 data.cities.forEach(function(item) {
                     var cities = `
                         <option value="${item.id}">${item.name}</option>

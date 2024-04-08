@@ -32,7 +32,41 @@
                     <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="/home">Home</a></li>
                     <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="itineraire/create">create new itinerary</a></li>
                     <li><a class="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="/toVisitList">To visit list</a></li>
-                 </ul>
+                    <div class=" w-full flex justify-center">
+                        <div @click.away="openSort = false" class="relative decoration-slate-500" x-data="{ openSort: false,sortType:'Sort by' }" style="background-color: #7563ff; border-radius: 15px;">
+                            <button @click="openSort = !openSort" class="flex  text-white bg-gray-200 items-center justify-start w-40  py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg ">
+                                <span x-text="sortType"></span>
+                                <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openSort, 'rotate-0': !openSort}" class="w-4 h-4  transition-transform duration-200 transform "><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                          <div x-show="openSort" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute z-50 w-full  origin-top-right">
+                            <div class="px-2 pt-2 pb-2 bg-white rounded-md shadow-lg dark-mode:bg-gray-700">
+                                <a class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+                                  
+                                    <div class="">
+                                      Filtre itinerary by categories
+                                    </div>
+                                  </a>
+                                <form id="filterForm">
+                                    <select name="filterBy" id="categoriesContainer" class="categoriesContainer block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner flex flex-col" required>
+                                    </select>
+                                    <button type="submit"> Filter </button>
+                                </form>
+                                <a class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+                                  
+                                  <div class="">
+                                    Filtre itinerary by days number
+                                  </div>
+                                </a>
+                                <form id="filterFormDuree">
+                                    <select name="filterBy" id="numberSelect" class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner flex flex-col" required>
+                                    </select>
+                                    <button type="submit"> Filter </button>
+                                </form>
+                            </div>
+                          </div>
+                        </div> 
+                    </div>
+                </ul>
               </nav>
            </div>
 
@@ -56,7 +90,6 @@
                     </div>
                 </div>
                 </form>
-                {{-- <ul id="result"></ul> --}}
                 <button class="logout bg-transparent text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">Logout</button>
                 <a href="/login" class="login_btn"><button class="login_btn bg-transparent text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">Sign in</button></a>
                 <a href="/register" class="register_btn"><button class="register_btn bg-blue-600 text-gray-200 p-2 rounded  hover:bg-blue-500 hover:text-gray-100">Sign up</button></a>
@@ -64,42 +97,9 @@
            </div>
         </div>
      </nav>
-     {{-- <div class=" w-full flex justify-center">
-        <div @click.away="openSort = false" class="relative" x-data="{ openSort: true,sortType:'Sort by' }">
-            <button @click="openSort = !openSort" class="flex  text-white bg-gray-200 items-center justify-start w-40  py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg ">
-                <span x-text="sortType"></span>
-                <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openSort, 'rotate-0': !openSort}" class="w-4 h-4  transition-transform duration-200 transform "><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              </button>
-          <div x-show="openSort" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute z-50 w-full  origin-top-right">
-            <div class="px-2 pt-2 pb-2 bg-white rounded-md shadow-lg dark-mode:bg-gray-700">
-              <div class="flex flex-col">
-                <a @click="sortType='Most disscussed',openSort=!openSort" x-show="sortType != 'Most disscussed'" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
-                  
-                  <div class="">
-                    <p class="font-semibold">Most disscussed</p>
-                  </div>
-                </a>
-
-                <a @click="sortType='Most popular',openSort=!openSort" x-show="sortType != 'Most popular'" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
-                  
-                  <div class="">
-                    <p class="font-semibold">Most popular</p>
-                  </div>
-                </a>
-
-                <a @click="sortType='Most upvoted',openSort=!openSort" x-show="sortType != 'Most upvoted'" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
-                  
-                  <div class="">
-                    <p class="font-semibold">Most upvoted</p>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div> 
-    </div> --}}
-    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
+     
      <div id="result" class="w-4/6 z-50 absolut mx-auto mt-7 flex item-center justify-between mt-3"></div>
+     <div id="resultFilter" class="w-4/6 z-50 absolut mx-auto mt-7 flex item-center justify-between mt-3"></div>
     @yield('main')
     <script>
         var token = localStorage.getItem('user_token');
@@ -202,4 +202,109 @@
                 }
             });
         });
-    </script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "http://127.0.0.1:8080/api/itineraire/display",
+            method: "GET",
+            success: function(data){
+                // console.log(data.cities[0].id);
+                var categoriesContainer = $('.categoriesContainer');
+                
+                data.categories.forEach(function(item){
+                    var categories = `
+                        <option value="${item.name}">${item.name}</option>
+                    `;
+                    categoriesContainer.append(categories);
+                });
+            },
+            error: function(data){
+                console.log('Error:', data);
+            }
+        });
+    });
+
+    $(document).ready(function(){
+            $("#filterForm").submit(function(event){
+                event.preventDefault();
+                var formData = $(this).serialize();
+                var resultItineraries = $("#resultFilter");
+                resultItineraries.empty();
+                $.ajax({
+                    url: "http://127.0.0.1:8080/api/itinetaire/Filter",
+                    method: "POST",
+                    data: formData,
+                    success: function(data){
+                        console.log(data);
+                        data.itineraire.forEach(function(item) {
+                            var itinerary = `
+                                <div class="w-full flex p-3 pl-4 items-center hover:bg-gray-300 rounded-lg cursor-pointer">
+                                <div class="mr-4">
+                                    <div class="h-9 w-9 rounded-sm flex items-center justify-center text-3xl" >
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-lg">${item.titre}</div>
+                                    <div class="text-xs text-gray-500">
+                                        <div class="mr-2">${item.duree} days</div>
+                                        <div class="mr-2">${item.category.name}</div>
+                                        <div class="mr-2">create by ${item.users.name}</div>
+                                    </div>
+                                </div>
+                                <button class="px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded" id"listForm">Add to visit list</button>
+                            `;
+                            resultItineraries.append(itinerary);
+                        });
+                    },
+                });
+            });
+    });
+
+    $(document).ready(function(){
+            $("#filterFormDuree").submit(function(event){
+                event.preventDefault();
+                var formData = $(this).serialize();
+                var resultItineraries = $("#resultFilter");
+                resultItineraries.empty();
+                $.ajax({
+                    url: "http://127.0.0.1:8080/api/itinetaire/Filter",
+                    method: "POST",
+                    data: formData,
+                    success: function(data){
+                        console.log(data);
+                        data.itineraire.forEach(function(item) {
+                            var itinerary = `
+                                <div class="w-full flex p-3 pl-4 items-center hover:bg-gray-300 rounded-lg cursor-pointer">
+                                <div class="mr-4">
+                                    <div class="h-9 w-9 rounded-sm flex items-center justify-center text-3xl" >
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-lg">${item.titre}</div>
+                                    <div class="text-xs text-gray-500">
+                                        <div class="mr-2">${item.duree} days</div>
+                                        <div class="mr-2">${item.category.name}</div>
+                                        <div class="mr-2">create by ${item.users.name}</div>
+                                    </div>
+                                </div>
+                                <button class="px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded" id"listForm">Add to visit list</button>
+                            `;
+                            resultItineraries.append(itinerary);
+                        });
+                    },
+                });
+            });
+    });
+
+    function populateSelect() {
+        var selectElement = document.getElementById("numberSelect");
+        for (var i = 1; i <= 30; i++) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            selectElement.add(option);
+        }
+    }
+    populateSelect();
+</script>
+
+<script src="//unpkg.com/alpinejs" defer></script>
